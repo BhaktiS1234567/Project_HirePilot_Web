@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import bgImage from "../assets/signImg.jpg"; // adjust path if needed
+import bgImage from "../assets/signImg.jpg";
 
 export default function SignIn() {
-  const { login } = useAuth();
+  const { login, resetPassword } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isForgot, setIsForgot] = useState(false);
@@ -15,20 +15,15 @@ export default function SignIn() {
     if (!isForgot) {
       login(username, password);
     } else {
-      console.log("Resetting password for:", email);
-      alert("Password reset link sent or password updated (demo).");
-      setIsForgot(false);
+      resetPassword(email, newPassword);
     }
   };
 
   const handleClear = () => {
-    if (!isForgot) {
-      setUsername("");
-      setPassword("");
-    } else {
-      setEmail("");
-      setNewPassword("");
-    }
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setNewPassword("");
   };
 
   return (
@@ -36,10 +31,8 @@ export default function SignIn() {
       className="relative h-screen w-screen bg-cover bg-center flex items-center justify-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      {/* Slight gray overlay for readability */}
       <div className="absolute inset-0 bg-gray-500/20"></div>
 
-      {/* Transparent Auth form */}
       <div
         className="absolute text-black z-10"
         style={{
@@ -57,7 +50,6 @@ export default function SignIn() {
         <form onSubmit={handleSubmit}>
           {!isForgot ? (
             <>
-              {/* Sign In Form */}
               <div className="space-y-6">
                 <input
                   type="text"
@@ -109,7 +101,6 @@ export default function SignIn() {
             </>
           ) : (
             <>
-              {/* Forgot Password Form */}
               <div className="space-y-6">
                 <input
                   type="email"

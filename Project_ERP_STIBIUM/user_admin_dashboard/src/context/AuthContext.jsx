@@ -8,48 +8,84 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
   const navigate = useNavigate();
 
-  // Register User
-  const register = (form) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const exists = users.find((u) => u.username === form.username);
-    if (exists) return alert("❌ Username already exists!");
-    if (form.password !== form.confirmPassword) return alert("❌ Passwords do not match!");
+  // 🟡 SIGN UP — Connect to backend
+  const register = async (form) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          username: form.username,
+          email: form.email,
+          password: form.password,
+          role: form.role,
+        }),
+      });
 
-    const newUser = {
-      name: form.name,
-      username: form.username,
-      email: form.email,
-      password: form.password,
-      role: form.role,
-    };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("✅ Registered successfully!");
-    navigate("/signin");
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Signup failed");
+
+      alert("✅ Registered successfully!");
+      navigate("/signin");
+    } catch (err) {
+      alert("❌ " + err.message);
+      console.error("Signup Error:", err);
+    }
   };
 
-  // Login User
-  const login = (username, password) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const validUser = users.find((u) => u.username === username && u.password === password);
+  // 🟡 SIGN IN — Connect to backend
+  const login = async (username, password) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (!validUser) return alert("❌ Invalid username or password!");
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Login failed");
 
-    setUser(validUser);
-    localStorage.setItem("user", JSON.stringify(validUser));
+      setUser(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-    if (validUser.role === "admin") navigate("/dashboard/admin");
-    else navigate("/dashboard/user");
+      if (data.user.role === "admin") navigate("/dashboard/admin");
+      else navigate("/dashboard/user");
+    } catch (err) {
+      alert("❌ " + err.message);
+      console.error("Login Error:", err);
+    }
   };
 
+  // 🟡 LOGOUT
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
     navigate("/signin");
   };
 
+  // 🟡 RESET PASSWORD — Forgot password feature
+  const resetPassword = async (email, newPassword) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/resetPass", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, newPassword }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Password reset failed");
+
+      alert("✅ Password reset successful!");
+      navigate("/signin");
+    } catch (err) {
+      alert("❌ " + err.message);
+      console.error("Reset Password Error:", err);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, register, login, logout }}>
+    <AuthContext.Provider value={{ user, register, login, logout, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );
