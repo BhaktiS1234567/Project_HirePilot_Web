@@ -16,8 +16,21 @@ export default function JobPost() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Job Posted:", jobData);
-    alert("Job opening posted successfully!");
+
+    // ✅ Save posted job to localStorage
+    const existingJobs = JSON.parse(localStorage.getItem("adminJobs")) || [];
+    const newJob = {
+      id: Date.now(),
+      ...jobData,
+      postedDate: new Date().toLocaleDateString(),
+      type: "Full Time",
+    };
+
+    localStorage.setItem("adminJobs", JSON.stringify([...existingJobs, newJob]));
+
+    alert("✅ Job opening posted successfully!");
+
+    // Reset form
     setJobData({
       title: "",
       description: "",
@@ -34,27 +47,28 @@ export default function JobPost() {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Job Title */}
-        <div>
-          <label className="block text-black font-medium mb-2">
-            Job Title
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={jobData.title}
-            onChange={handleChange}
-            placeholder="Enter job title"
-            required
-            className="w-full px-4 py-2 rounded-lg border border-white/40 bg-white/60 text-black placeholder-gray-500 focus:ring-2 focus:ring-amber-500 outline-none"
-          />
-        </div>
+        {[
+          { label: "Job Title", name: "title", type: "text", placeholder: "Enter job title" },
+          { label: "Package (CTC)", name: "package", type: "text", placeholder: "e.g., ₹6 LPA" },
+          { label: "Job Location", name: "location", type: "text", placeholder: "e.g., Pune / Remote" },
+        ].map((input) => (
+          <div key={input.name}>
+            <label className="block text-black font-medium mb-2">{input.label}</label>
+            <input
+              type={input.type}
+              name={input.name}
+              value={jobData[input.name]}
+              onChange={handleChange}
+              placeholder={input.placeholder}
+              required
+              className="w-full px-4 py-2 rounded-lg border border-white/40 bg-white/60 text-black placeholder-gray-500 focus:ring-2 focus:ring-amber-500 outline-none"
+            />
+          </div>
+        ))}
 
-        {/* Description */}
+        {/* Job Description */}
         <div>
-          <label className="block text-black font-medium mb-2">
-            Job Description
-          </label>
+          <label className="block text-black font-medium mb-2">Job Description</label>
           <textarea
             name="description"
             value={jobData.description}
@@ -66,43 +80,9 @@ export default function JobPost() {
           ></textarea>
         </div>
 
-        {/* Package */}
+        {/* Eligibility */}
         <div>
-          <label className="block text-black font-medium mb-2">
-            Package (CTC)
-          </label>
-          <input
-            type="text"
-            name="package"
-            value={jobData.package}
-            onChange={handleChange}
-            placeholder="e.g., ₹6 LPA"
-            required
-            className="w-full px-4 py-2 rounded-lg border border-white/40 bg-white/60 text-black placeholder-gray-500 focus:ring-2 focus:ring-amber-500 outline-none"
-          />
-        </div>
-
-        {/* Location */}
-        <div>
-          <label className="block text-black font-medium mb-2">
-            Job Location
-          </label>
-          <input
-            type="text"
-            name="location"
-            value={jobData.location}
-            onChange={handleChange}
-            placeholder="e.g., Pune / Remote"
-            required
-            className="w-full px-4 py-2 rounded-lg border border-white/40 bg-white/60 text-black placeholder-gray-500 focus:ring-2 focus:ring-amber-500 outline-none"
-          />
-        </div>
-
-        {/* Eligibility Criteria */}
-        <div>
-          <label className="block text-black font-medium mb-2">
-            Eligibility Criteria
-          </label>
+          <label className="block text-black font-medium mb-2">Eligibility Criteria</label>
           <textarea
             name="eligibility"
             value={jobData.eligibility}
@@ -114,7 +94,7 @@ export default function JobPost() {
           ></textarea>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <div className="flex justify-center">
           <button
             type="submit"
