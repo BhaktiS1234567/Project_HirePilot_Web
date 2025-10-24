@@ -97,13 +97,13 @@ export default function UserProfile() {
         <div className="mt-4 flex justify-end gap-3">
           <button
             onClick={() => handleSave("Basic Details")}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            className="bg-amber-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Save
           </button>
           <button
             onClick={() => handleDelete("Basic Details")}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-red-700"
           >
             Delete
           </button>
@@ -149,13 +149,13 @@ export default function UserProfile() {
             <div className="flex justify-end gap-3 col-span-2">
               <button
                 onClick={() => handleSave("Education")}
-                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-green-700"
               >
                 Save
               </button>
               <button
                 onClick={() => deleteField(index, setEducation, education)}
-                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-red-700"
               >
                 Delete
               </button>
@@ -214,13 +214,13 @@ export default function UserProfile() {
             <div className="flex justify-end gap-3 col-span-2">
               <button
                 onClick={() => handleSave("Experience")}
-                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-green-700"
               >
                 Save
               </button>
               <button
                 onClick={() => deleteField(index, setExperience, experience)}
-                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-red-700"
               >
                 Delete
               </button>
@@ -266,13 +266,13 @@ export default function UserProfile() {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => handleSave("Project")}
-                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-green-700"
               >
                 Save
               </button>
               <button
                 onClick={() => deleteField(index, setProjects, projects)}
-                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-red-700"
               >
                 Delete
               </button>
@@ -296,13 +296,13 @@ export default function UserProfile() {
         <div className="mt-4 flex justify-end gap-3">
           <button
             onClick={() => handleSave("Resume")}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            className="bg-amber-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Save
           </button>
           <button
             onClick={() => handleDelete("Resume")}
-            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-red-700"
           >
             Delete
           </button>
