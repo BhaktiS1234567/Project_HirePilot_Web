@@ -1,0 +1,8 @@
+// UpdateEmailRequest.java
+package com.erp.HirePilot.CandidateDashboard.settings.general.dto;
+
+public class UpdateEmailRequest {
+    private String email;
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+}
